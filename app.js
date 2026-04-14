@@ -1,46 +1,93 @@
 const input = document.getElementById('task-input');
 const button = document.getElementById('add-task-btn');
 const list = document.getElementById('task-list');
+const taskCount = document.getElementById('task-count');
+const clearAllBtn = document.getElementById('clear-all');
 
-button.addEventListener('click', addTask);
+// 1. Inicjalizacja stanu
+let tasks = JSON.parse(localStorage.getItem('zen_tasks')) || [];
 
-function addTask() {
-    const taskText = input.value.trim();
+// 2. Wyświetlanie daty
+document.getElementById('date-display').textContent = new Date().toLocaleDateString('pl-PL', { 
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+});
 
-    if (taskText === '') return;
+// 3. Renderowanie listy
+function renderTasks() {
+    list.innerHTML = '';
+    tasks.forEach((task, index) => {
+        const li = document.createElement('li');
+        if (task.completed) li.classList.add('completed');
 
-    const li = document.createElement('li');
-
-    // Lewa część (checkbox + tekst)
-    const left = document.createElement('div');
-    left.classList.add('task-left');
-
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-
-    const span = document.createElement('span');
-    span.textContent = taskText;
-
-    checkbox.addEventListener('change', () => {
-        li.classList.toggle('completed');
+        li.innerHTML = `
+            <div class="task-content">
+                <div class="custom-checkbox" onclick="toggleTask(${index})">
+                    ${task.completed ? '✓' : ''}
+                </div>
+                <span class="task-text">${task.text}</span>
+            </div>
+            <button class="delete-btn" onclick="deleteTask(${index})">USUŃ</button>
+        `;
+        list.appendChild(li);
     });
-
-    left.appendChild(checkbox);
-    left.appendChild(span);
-
-    // Przycisk usuwania
-    const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = 'Usuń';
-    deleteBtn.classList.add('delete-btn');
-
-    deleteBtn.addEventListener('click', () => {
-        li.remove();
-    });
-
-    li.appendChild(left);
-    li.appendChild(deleteBtn);
-
-    list.appendChild(li);
-
-    input.value = '';
+    
+    updateStats();
+    localStorage.setItem('zen_tasks', JSON.stringify(tasks));
 }
+
+// 4. Funkcje operacyjne
+function addTask() {
+    const text = input.value.trim();
+    if (text) {
+        tasks.push({ text, completed: false });
+        input.value = '';
+        renderTasks();
+    }
+}
+
+function toggleTask(index) {
+    tasks[index].completed = !tasks[index].completed;
+    renderTasks();
+}
+
+function deleteTask(index) {
+    tasks.splice(index, 1);
+    renderTasks();
+}
+
+function updateStats() {
+    const active = tasks.filter(t => !t.completed).length;
+    taskCount.textContent = `${active} aktywnych zadań`;
+}
+
+// 5. Event Listeners
+button.addEventListener('click', addTask);
+input.addEventListener('keypress', (e) => { if (e.key === 'Enter') addTask(); });
+clearAllBtn.addEventListener('click', () => {
+    tasks = tasks.filter(t => !t.completed);
+    renderTasks();
+});
+
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+
+// Sprawdź, czy użytkownik miał już ustawiony tryb jasny w localStorage
+if (localStorage.getItem('theme') === 'light') {
+    body.classList.add('light-mode');
+    themeToggle.textContent = '☀️';
+}
+
+themeToggle.addEventListener('click', () => {
+    body.classList.toggle('light-mode');
+    
+    // Zmień ikonkę i zapisz preferencję
+    if (body.classList.contains('light-mode')) {
+        themeToggle.textContent = '☀️';
+        localStorage.setItem('theme', 'light');
+    } else {
+        themeToggle.textContent = '🌙';
+        localStorage.setItem('theme', 'dark');
+    }
+});
+// Start aplikacji
+renderTasks();

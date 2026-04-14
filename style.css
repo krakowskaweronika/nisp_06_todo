@@ -1,4 +1,28 @@
-/* Reset i podstawy */
+/* 1. Zmienne i System Motywów */
+:root {
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --bg: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --text: #f8fafc;
+    --text-dim: #94a3b8;
+    --radius: 16px;
+    --input-bg: rgba(15, 23, 42, 0.6);
+    --input-text: #ffffff;
+    --li-bg: rgba(255, 255, 255, 0.03);
+}
+
+body.light-mode {
+    --bg: #f1f5f9;
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --text: #1e293b;
+    --text-dim: #64748b;
+    --input-bg: #ffffff;
+    --input-text: #1e293b;
+    --li-bg: #f8fafc;
+}
+
+/* 2. Reset i Podstawy */
 * {
     margin: 0;
     padding: 0;
@@ -6,93 +30,207 @@
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #f4f6f8;
-    color: #333;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
     display: flex;
-    flex-direction: column; /* Układa elementy w pionie */
-    align-items: center;    /* Środkuje w poziomie */
-    padding: 40px;
+    justify-content: center;
+    align-items: center;
     min-height: 100vh;
+    overflow: hidden;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* Główny kontener */
-.container {
+/* 3. Tło i Kontener */
+.background-blob {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(0,0,0,0) 70%);
+    filter: blur(50px);
+    z-index: -1;
+}
+
+.app-container {
     width: 100%;
-    max-width: 500px;
+    max-width: 550px;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    transition: background 0.3s;
 }
 
-/* Nagłówek */
-h1 {
+/* 4. Nagłówek i Przełącznik */
+header {
+    margin-bottom: 30px;
     text-align: center;
-    margin-bottom: 20px;
 }
 
-/* Formularz */
-.form-container {
+h1 {
+    font-weight: 600;
+    letter-spacing: -1px;
+}
+
+h1 span {
+    color: var(--primary);
+    font-weight: 300;
+}
+
+#date-display {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-top: 5px;
+}
+
+.theme-btn {
+    background: var(--input-bg);
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: all 0.3s;
+    font-size: 1.2rem;
+}
+
+/* 5. Formularz Wejściowy */
+.input-wrapper {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px; /* Odstęp od listy */
+    gap: 12px;
+    background: var(--input-bg);
+    padding: 8px;
+    border-radius: var(--radius);
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    transition: background 0.3s;
 }
 
 #task-input {
     flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    background: transparent;
+    border: none;
+    color: var(--input-text);
+    padding: 12px;
+    font-size: 1rem;
     outline: none;
 }
 
-#task-input:focus {
-    border-color: #4CAF50;
+button#add-task-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-/* Lista */
+button#add-task-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+/* 6. Lista Zadań */
 #task-list {
     list-style: none;
-    padding: 0;
+    margin-top: 30px;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
-/* Elementy listy */
 #task-list li {
+    background: var(--li-bg);
+    margin-bottom: 12px;
+    padding: 16px;
+    border-radius: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #ffffff;
-    padding: 12px 15px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(128, 128, 128, 0.1);
 }
 
-/* Przyciski */
-button {
-    padding: 8px 16px;
-    border: none;
-    background-color: #4CAF50;
-    color: white;
+#task-list li:hover {
+    border-color: var(--primary);
+    transform: translateX(5px);
+}
+
+body.light-mode #task-list li {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* 7. Elementy Zadania */
+.task-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.custom-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary);
     border-radius: 6px;
     cursor: pointer;
-    transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
 }
 
-button:hover {
-    background-color: #45a049;
+li.completed .custom-checkbox {
+    background: var(--primary);
 }
 
-/* Klasy pomocnicze (do wykorzystania w JS) */
-.completed {
+li.completed .task-text {
     text-decoration: line-through;
-    color: gray;
-    opacity: 0.7;
+    color: var(--text-dim);
 }
 
 .delete-btn {
-    background-color: #e74c3c;
-    margin-left: 10px;
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: none;
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 8px 12px;
+    border-radius: 8px;
+    opacity: 0;
+    transition: all 0.2s;
+}
+
+li:hover .delete-btn {
+    opacity: 1;
 }
 
 .delete-btn:hover {
-    background-color: #c0392b;
+    background: #ef4444;
+    color: white;
+}
+
+/* 8. Statystyki */
+.stats {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    padding-top: 20px;
+    border-top: 1px solid rgba(128, 128, 128, 0.1);
+}
+
+.text-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.text-btn:hover {
+    color: var(--primary);
 }
