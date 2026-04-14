@@ -7,10 +7,22 @@ button.addEventListener('click', () => {
 
     if (taskText.trim() !== '') {
         const li = document.createElement('li');
-        li.textContent = taskText;
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+
+        const span = document.createElement('span');
+        span.textContent = taskText;
+
+        checkbox.addEventListener('change', () => {
+            li.classList.toggle('completed');
+        });
+
+        li.appendChild(checkbox);
+        li.appendChild(span);
 
         list.appendChild(li);
 
-        input.value = ''; // wyczyszczenie pola
+        input.value = '';
     }
 });

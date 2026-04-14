@@ -66,3 +66,14 @@ button:hover {
 #task-list li:hover {
     background-color: #f0f8ff;
 }
+
+#task-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#task-list li.completed span {
+    text-decoration: line-through;
+    color: #7f8c8d;
+}
