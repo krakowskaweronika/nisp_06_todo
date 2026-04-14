@@ -6,17 +6,17 @@
     <title>TODO App</title>
 </head>
 <body>
-    <h1>Moja lista zadań</h1>
+    <main class="container">
+        <h1>Moja lista zadań</h1>
 
-    <div class="form-container">
-        <input type="text" id="task-input" placeholder="Wpisz zadanie">
-        <button id="add-task-btn">Dodaj</button>
-    </div>
+        <div id="task-form" class="form-container">
+            <input type="text" id="task-input" placeholder="Wpisz zadanie">
+            <button id="add-task-btn">Dodaj</button>
+        </div>
 
-    <!-- Lista -->
-    <ul id="task-list"></ul>
+        <ul id="task-list"></ul>
+    </main>
 
-    <!-- Podpięcie JS -->
     <script src="app.js"></script>
 </body>
 </html>

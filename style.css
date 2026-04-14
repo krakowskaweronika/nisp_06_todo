@@ -1,79 +1,98 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #eaf4ff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 60px;
-    color: #2c3e50;
+/* Reset i podstawy */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f8;
+    color: #333;
+    display: flex;
+    flex-direction: column; /* Układa elementy w pionie */
+    align-items: center;    /* Środkuje w poziomie */
+    padding: 40px;
+    min-height: 100vh;
+}
+
+/* Główny kontener */
+.container {
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Nagłówek */
 h1 {
-    color: #4a90e2;
+    text-align: center;
     margin-bottom: 20px;
 }
 
-input {
-    padding: 10px;
-    width: 220px;
-    border: 1px solid #bcdcff;
-    border-radius: 8px;
-    outline: none;
-    margin-right: 10px;
-    font-size: 14px;
-}
-
-input:focus {
-    border-color: #4a90e2;
-}
-
-button {
-    padding: 10px 15px;
-    background-color: #a3d2ff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.2s;
-}
-
+/* Formularz */
 .form-container {
     display: flex;
     gap: 10px;
-    align-items: center;
+    margin-bottom: 20px; /* Odstęp od listy */
 }
 
-button:hover {
-    background-color: #7fbfff;
+#task-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
 }
 
+#task-input:focus {
+    border-color: #4CAF50;
+}
+
+/* Lista */
 #task-list {
     list-style: none;
     padding: 0;
-    margin-top: 30px;
-    width: 280px;
 }
 
-#task-list li {
-    background-color: #ffffff;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-    transition: 0.2s;
-}
-
-#task-list li:hover {
-    background-color: #f0f8ff;
-}
-
+/* Elementy listy */
 #task-list li {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    background: #ffffff;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-#task-list li.completed span {
+/* Przyciski */
+button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Klasy pomocnicze (do wykorzystania w JS) */
+.completed {
     text-decoration: line-through;
-    color: #7f8c8d;
+    color: gray;
+    opacity: 0.7;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+    margin-left: 10px;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
 }

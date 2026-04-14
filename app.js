@@ -2,27 +2,45 @@ const input = document.getElementById('task-input');
 const button = document.getElementById('add-task-btn');
 const list = document.getElementById('task-list');
 
-button.addEventListener('click', () => {
-    const taskText = input.value;
+button.addEventListener('click', addTask);
 
-    if (taskText.trim() !== '') {
-        const li = document.createElement('li');
+function addTask() {
+    const taskText = input.value.trim();
 
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
+    if (taskText === '') return;
 
-        const span = document.createElement('span');
-        span.textContent = taskText;
+    const li = document.createElement('li');
 
-        checkbox.addEventListener('change', () => {
-            li.classList.toggle('completed');
-        });
+    // Lewa część (checkbox + tekst)
+    const left = document.createElement('div');
+    left.classList.add('task-left');
 
-        li.appendChild(checkbox);
-        li.appendChild(span);
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
 
-        list.appendChild(li);
+    const span = document.createElement('span');
+    span.textContent = taskText;
 
-        input.value = '';
-    }
-});
+    checkbox.addEventListener('change', () => {
+        li.classList.toggle('completed');
+    });
+
+    left.appendChild(checkbox);
+    left.appendChild(span);
+
+    // Przycisk usuwania
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'Usuń';
+    deleteBtn.classList.add('delete-btn');
+
+    deleteBtn.addEventListener('click', () => {
+        li.remove();
+    });
+
+    li.appendChild(left);
+    li.appendChild(deleteBtn);
+
+    list.appendChild(li);
+
+    input.value = '';
+}
